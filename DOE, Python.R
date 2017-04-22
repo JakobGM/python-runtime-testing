@@ -1,5 +1,6 @@
 rm(list=ls())
 
+## ---- analysis
 library(FrF2)
 library(nortest)
 newrun = FALSE
