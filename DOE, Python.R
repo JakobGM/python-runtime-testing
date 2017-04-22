@@ -2,7 +2,7 @@ rm(list=ls())
 
 ## ---- analysis
 
-install.package(FrF2)
+install.packages("FrF2")
 library(FrF2)
 newrun = FALSE
 
