@@ -1,6 +1,7 @@
 rm(list=ls())
 
 ## ---- analysis
+
 library(FrF2)
 library(nortest)
 newrun = FALSE
@@ -29,3 +30,5 @@ qqnorm(rstudent(lm),pch=20)
 qqline(rstudent(lm))
 plot(lm$fitted,rstudent(lm),pch=20)
 cubePlot(lm,"A","B","C",round=1,size=0.33,main="") 
+
+## ---- end
