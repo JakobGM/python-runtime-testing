@@ -2,8 +2,8 @@ rm(list=ls())
 
 ## ---- analysis
 
-library(FrF2)
-library(nortest)
+require(FrF2)
+require(nortest)
 newrun = FALSE
 
 if (newrun){
