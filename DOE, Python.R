@@ -2,8 +2,8 @@ rm(list=ls())
 
 ## ---- analysis
 
-require(FrF2)
-require(nortest)
+install.package(FrF2)
+library(FrF2)
 newrun = FALSE
 
 if (newrun){
