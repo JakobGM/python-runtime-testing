@@ -28,15 +28,19 @@
 \tableofcontents
 \newpage
 
+<<echo=FALSE, cache=FALSE>>=
+read_chunk("DOE, Python.R")
+options(digits = 2)
+@
+
 \section{Introduction}
-
-
 
 \section{Problem}
 
 \section{Analysis}
 
-<<
+<<echo=TRUE, analysis>>=
+@
 
 \section{Conclusion}
 
