@@ -27,15 +27,32 @@
 
 \maketitle
 \tableofcontents
-\newpage
 
 
 
 \section{Introduction}
 
+The running time of a function written in the programming language Python depends on the exact technique used to implement the desired functionality. An algorithm such as insertion sort solves the sorting problem, but can be implemented in several different ways. In this report the effect of the choices made when implementing the function is examined.
+
 \section{Problem}
 
+An implementation of insertion sort is written in Python and small changes are made to the function in order to examine the effect of the changes. The parameters that are changed are as follows
+
+\begin{itemize}
+\item Tuple-changing \textbf{or} temporary variable
+\item range() \textbf{or} xrange()
+\item In-place sorting \textbf{or} return new array
+\item 32-bit representation \textbf{or} 64-bit representation
+\end{itemize}
+
+Tuple-changing is a built-in functionality in Python that enables two objects in a tuple to switch places without the creation of a temporary variable to hold one of the values. The alternative is to create such a temporary variable.
+The in-place sorting amounts to taking a list as an input-parameter and then changing the value of the numbers in the memory that the list points to. By doing this there is no need for the function to create and return a new list. The alternative is to do exactly that.
+Using the \texttt{range} function amounts to creating a full list and then iterating through the list. The alternative, \texttt{xrange}, creates a generator that is incremented as one passes through the list.
+The 32-bit representation of a number identicates that 32 bits of memory is allocated for the storage of each number. The alternative is to allocate 64 bit per number. 
+
 \section{Analysis}
+
+There is not expected to be any four-factor interaction. This is confirmed by the lenth.
 
 <<>>=
 
@@ -43,7 +60,7 @@ library(FrF2)
 newrun = FALSE
 
 if (newrun){
-  factor_names <- c("A", "B", "C", "D")
+  factor_names <- c("Swapping", "Iteration", "Returning", "Type")
   plan <- FrF2(nruns=16,nfactors=4,factor.names=factor_names)
   plan
   write.csv(plan, file="plan.csv")
@@ -60,6 +77,7 @@ summary(lm)
 
 
 effects <- 2*lm$coeff
+
 MEPlot(lm)
 IAPlot(lm)
 qqnorm(rstudent(lm),pch=20)

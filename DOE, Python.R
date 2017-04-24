@@ -1,8 +1,5 @@
 rm(list=ls())
 
-## ---- analysis
-
-install.packages("FrF2",lib="lib")
 library(FrF2)
 newrun = FALSE
 
@@ -13,8 +10,7 @@ if (newrun){
   write.csv(plan, file="plan.csv")
   save(plan,file="plan.RData")
 } else {
-  load(plan)
-}
+  load("C:/GitProject/TMA4267/plan.RData")
 
 data <- read.csv(file="mock_data.csv")
 attach(data)
@@ -30,5 +26,3 @@ qqnorm(rstudent(lm),pch=20)
 qqline(rstudent(lm))
 plot(lm$fitted,rstudent(lm),pch=20)
 cubePlot(lm,"A","B","C",round=1,size=0.33,main="") 
-
-## ---- end
