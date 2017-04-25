@@ -23,7 +23,6 @@
 \date{Spring 2017}
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 \maketitle
 \tableofcontents
@@ -54,9 +53,11 @@ The 32-bit representation of a number identicates that 32 bits of memory is allo
 
 There is not expected to be any four-factor interaction. This is confirmed by the lenth.
 
-<<>>=
-
+<<echo=FALSE,hide=TRUE,warning=FALSE,message=FALSE>>=
 library(FrF2)
+@
+
+<<>>=
 newrun = FALSE
 
 if (newrun){
