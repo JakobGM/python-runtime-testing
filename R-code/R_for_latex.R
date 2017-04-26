@@ -3,8 +3,9 @@ rm(list=ls())
 ## ---- setup
 
 library(FrF2)
+library(MASS)
 
-## full_model
+## ---- full_model
 
 newrun = FALSE
 
@@ -21,30 +22,49 @@ if (newrun){
 data <- read.csv(file="csv/results.csv")
 plan <- add.response(plan, data)
 
-lenth <- function(effects, alpha){
+get_lenth <- function(effects, alpha){
   abseffects <- abs(effects)
   median_abseffects <- median(abseffects)
   s0 = 1.5*median_abseffects
-  new_abseffects = abseffects[abseffects <= 2.5*s0]
+  new_abseffects = abseffects[abseffects < 2.5*s0]
   pse = 1.5*median(new_abseffects)
-  significant_effects <- abseffects[abseffects > qt(alpha/2,(length(effects)-1)/3)*pse]
+  significant_effects <- abseffects[abseffects > qt(1-alpha/2,(length(effects)-1)/3)*pse]
   return(significant_effects)
+}
+
+get_lambda <- function(model){
+  bc_res <- boxcox(model,c(-1,0.01,1),plotit=FALSE)
+  lambda_i <- which.max(bc_res$y)
+  lambda = bc_res$x[lambda_i]
+  return(lambda)
 }
 
 lm4 <- lm(time~(.)^4,data=plan)
 effects4 <- 2*lm4$coeff
-#lenth(effects4, 0.05)
+sign_eff <- get_lenth(effects4, 0.2)
+sign_eff
 
-## reduced_model_1
+## ---- reduced_model_1
 
 lm3 <- lm(time~(.)^3, data=plan)
-effects3 <- 2*lm3$coeff
-lenth(effects3, 0.05)
+summary(lm3)
 
 ## ---- reduced_model_2
 
 lm2 <- lm(time~(.)^2, data=plan)
 effects2 <- 2*lm2$coeff
+lambda <- get_lambda(lm2)
+tf_plan <- plan
+tf_plan$time = (data$time^lambda - 1)/lambda
+
+
+## ---- reduced_model_2_tf
+
+lm2_tf <- lm(time~(.)^2,data=tf_plan)
+summary(lm2_tf)
+qqnorm(rstudent(lm2_tf),pch=20)
+qqline(rstudent(lm2_tf))
+plot(lm2$fitted,rstudent(lm2_tf),pch=20)
 
 ## ---- analysis
 
@@ -57,3 +77,4 @@ qqnorm(rstudent(lm2),pch=20)
 qqline(rstudent(lm2))
 plot(lm2$fitted,rstudent(lm2),pch=20)
 cubePlot(lm2,"A","B","C",round=1,size=0.33,main="")
+
