@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+% \usepackage{a4wide}
+\usepackage{hyperref}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{bm}
+
+\renewcommand{\thesection}{\arabic{section}.}
+
+% \newcommand\given[1][]{\:#1\vert\:}
+% \newcommand{\N}{\mathbb{N}}
+%\newcommand{\E}{\mathrm{E}}
+% \newcommand{\P}{\mathrm{P}}
+% \newcommand{\Var}{\mathrm{Var}}
+% \newcommand{\Cov}{\mathrm{Cov}}
+% \newcommand{\me}{\mathrm{e}}
+
+\title{TMA4267 Design of Experiment}
+\author{Øyvind Klåpbakken, Jakob Martinussen}
+\date{Spring 2017}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+
+
+\section{Introduction}
+
+The running time of a function written in the programming language Python depends on the exact technique used to implement the desired functionality. An algorithm such as insertion sort solves the sorting problem, but can be implemented in several different ways. In this report the effect of the choices made when implementing the function is examined.
+
+\section{Problem}
+
+An implementation of insertion sort is written in Python and small changes are made to the function in order to examine the effect of the changes. The parameters that are changed are as follows
+
+\begin{itemize}
+\item Tuple-changing \textbf{or} temporary variable
+\item range() \textbf{or} xrange()
+\item In-place sorting \textbf{or} return new array
+\item 32-bit representation \textbf{or} 64-bit representation
+\end{itemize}
+
+Tuple-changing is a built-in functionality in Python that enables two objects in a tuple to switch places without the creation of a temporary variable to hold one of the values. The alternative is to create such a temporary variable.
+The in-place sorting amounts to taking a list as an input-parameter and then changing the value of the numbers in the memory that the list points to. By doing this there is no need for the function to create and return a new list. The alternative is to do exactly that.
+Using the \texttt{range} function amounts to creating a full list and then iterating through the list. The alternative, \texttt{xrange}, creates a generator that is incremented as one passes through the list.
+The 32-bit representation of a number identicates that 32 bits of memory is allocated for the storage of each number. The alternative is to allocate 64 bit per number. 
+
+\section{Analysis}
+
+There is not expected to be any four-factor interaction. This is confirmed by the lenth.
+
+<<echo=FALSE,hide=TRUE,warning=FALSE,message=FALSE>>=
+library(FrF2)
+@
+
+<<tidy=TRUE>>=
+newrun = FALSE
+
+if (newrun){
+  factor_names <- c("Swapping", "Iteration", "Returning", "Type")
+  plan <- FrF2(nruns=16,nfactors=4,factor.names=factor_names)
+  plan
+  write.csv(plan, file="plan.csv")
+  save(plan,file="plan.RData")
+} else {
+  load("plan.RData")
+}
+
+data <- read.csv(file="first_results.csv")
+plan <- add.response(plan, data)
+
+lenth <- function(effects, alpha){
+  abseffects <- abs(effects)
+  median_abseffects <- median(abseffects)
+  s0 = 1.5*median_abseffects
+  new_abseffects = abseffects[abseffects <= 2.5*s0]
+  pse = 1.5*median(new_abseffects)
+  significant_effects <- abseffects[abseffects > qt(alpha/2,(length(effects)-1)/3)*pse]
+  return(significant_effects)
+}
+
+lm4 <- lm(time~(.)^4,data=plan)
+effects4 <- 2*lm4$coeff
+lenth(effects4, 0.05)
+
+lm3 <- lm(time~(.)^3, data=plan)
+effects3 <- 2*lm3$coeff
+lenth(effects3, 0.05)
+
+
+lm2 <- lm(time~(.)^2, data=plan)
+effects2 <- 2*lm2$coeff
+summary(lm2)
+anova(lm2)
+
+MEPlot(lm2)
+IAPlot(lm2)
+qqnorm(rstudent(lm2),pch=20)
+qqline(rstudent(lm2))
+plot(lm2$fitted,rstudent(lm2),pch=20)
+cubePlot(lm2,"A","B","C",round=1,size=0.33,main="")
+
+@
+
+\section{Conclusion}
+
+\end{document}

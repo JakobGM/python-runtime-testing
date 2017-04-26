@@ -1,0 +1,47 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb}
+% \usepackage{a4wide}
+\usepackage{hyperref}
+\usepackage{graphicx}
+% \usepackage{listings}
+\usepackage{bm}
+
+\renewcommand{\thesection}{\arabic{section}.}
+
+% \newcommand\given[1][]{\:#1\vert\:}
+% \newcommand{\N}{\mathbb{N}}
+%\newcommand{\E}{\mathrm{E}}
+% \newcommand{\P}{\mathrm{P}}
+% \newcommand{\Var}{\mathrm{Var}}
+% \newcommand{\Cov}{\mathrm{Cov}}
+% \newcommand{\me}{\mathrm{e}}
+
+\title{TMA4267 Design of Experiment}
+\author{Øyvind Klåpbakken, Jakob Martinussen}
+\date{Spring 2017}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+<<echo=FALSE, cache=FALSE>>=
+read_chunk("DOE, Python.R")
+options(digits = 2)
+@
+
+\section{Introduction}
+
+\section{Problem}
+
+\section{Analysis}
+
+<<echo=TRUE, analysis>>=
+@
+
+\section{Conclusion}
+
+\end{document}
