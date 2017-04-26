@@ -67,10 +67,10 @@ if (newrun){
   write.csv(plan, file="plan.csv")
   save(plan,file="plan.RData")
 } else {
-  load("C:/Users/Bruker/Documents/RStudio/TMA4267/plan.RData")
+  load("plan.RData")
 }
 
-data <- read.csv(file="C:/Users/Bruker/Documents/RStudio/TMA4267/first_results.csv")
+data <- read.csv(file="first_results.csv")
 plan <- add.response(plan, data)
 
 lenth <- function(effects, alpha){
