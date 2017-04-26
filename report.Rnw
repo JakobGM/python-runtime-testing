@@ -29,7 +29,7 @@
 read_chunk("R-code/R_for_latex.R")
 @
 
-<<setup>>=
+<<setup,hide=TRUE,warning=FALSE,message=FALSE>>=
 @
 
 \section{Introduction}
@@ -45,6 +45,11 @@ read_chunk("R-code/R_for_latex.R")
 \input{"latex/analysis.tex"}
 
 <<full_model>>=
+@
+
+<<reduced_model_2>>=
+
+<<analysis>>=
 @
 
 \section{Conclusion}

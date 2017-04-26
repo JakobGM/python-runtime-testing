@@ -1,3 +1,5 @@
+rm(list=ls())
+
 ## ---- setup
 
 library(FrF2)
@@ -16,7 +18,7 @@ if (newrun){
   load("R-code/plan.RData")
 }
 
-data <- read.csv(file="csv/first_results.csv")
+data <- read.csv(file="csv/results.csv")
 plan <- add.response(plan, data)
 
 lenth <- function(effects, alpha){
@@ -31,7 +33,7 @@ lenth <- function(effects, alpha){
 
 lm4 <- lm(time~(.)^4,data=plan)
 effects4 <- 2*lm4$coeff
-lenth(effects4, 0.05)
+#lenth(effects4, 0.05)
 
 ## reduced_model_1
 
