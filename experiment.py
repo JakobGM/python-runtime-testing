@@ -42,7 +42,7 @@ def save_results(results):
             writer.writerow((value,))
 
 
-def run_experiments(repetitions=3):
+def run_experiments(repetitions=100):
     plan = experiment_plan()
     results = OrderedDict()
 
