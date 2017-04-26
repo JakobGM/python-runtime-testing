@@ -64,13 +64,13 @@ if (newrun){
   factor_names <- c("Swapping", "Iteration", "Returning", "Type")
   plan <- FrF2(nruns=16,nfactors=4,factor.names=factor_names)
   plan
-  write.csv(plan, file="plan.csv")
-  save(plan,file="plan.RData")
+  write.csv(plan, file="csv/plan.csv")
+  save(plan,file="R-code/plan.RData")
 } else {
-  load("plan.RData")
+  load("R-code/plan.RData")
 }
 
-data <- read.csv(file="first_results.csv")
+data <- read.csv(file="csv/first_results.csv")
 plan <- add.response(plan, data)
 
 lenth <- function(effects, alpha){
