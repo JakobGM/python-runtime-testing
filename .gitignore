@@ -1,3 +1,6 @@
 .Rproj.user
 .Rhistory
 .Ruserdata
+
+# Ignore python C compilations
+*.pyc
