@@ -57,7 +57,7 @@ There is not expected to be any four-factor interaction. This is confirmed by th
 library(FrF2)
 @
 
-<<>>=
+<<tidy=TRUE>>=
 newrun = FALSE
 
 if (newrun){
@@ -67,10 +67,10 @@ if (newrun){
   write.csv(plan, file="plan.csv")
   save(plan,file="plan.RData")
 } else {
-  load("C:/GitProject/TMA4267/plan.RData")
+  load("C:/Users/Bruker/Documents/RStudio/TMA4267/plan.RData")
 }
 
-data <- read.csv(file="C:/GitProject/TMA4267/python-runtime-testing-master/results.csv")
+data <- read.csv(file="C:/Users/Bruker/Documents/RStudio/TMA4267/first_results.csv")
 plan <- add.response(plan, data)
 
 lenth <- function(effects, alpha){
