@@ -1,0 +1,16 @@
+The insertion sort algorithm is conceptually quite simple. When implementing it, the programmer does not have a lot of choices, except for how to exactly use the programming language and its features. We have chosen to investigate the effect of 4 such factors on the runtime of the algorithm.    
+
+\begin{itemize}
+    \item Factor A: How to implement an interchange of values between two variables. Here you have the choice between creating a temporary variable in order to store the value of the first variable, while you change it to the value of the second one.
+    \begin{lstlisting}[language=Python]
+        temp = array[j-1]
+        array[j-1] = array[j]
+        array[j] = temp
+    \end{lstlisting}
+    Versus using the more idiomatic aproach (often called `pythonic') of tuple reassignment, as shown:
+    \begin{lstlisting}[language=Python]
+        array[j-1], array[j] = array[j], array[j-1]
+    \end{lstlisting}
+ 
+    \item Factor B: How to create an iteration variable in order to keep track of how much of the array that has already been sorted. There are two ways  
+\end{itemize}
