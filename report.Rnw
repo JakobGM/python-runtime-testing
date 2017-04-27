@@ -30,6 +30,7 @@ read_chunk("R-code/R_for_latex.R")
 @
 
 <<setup,echo=FALSE,hide=TRUE,warning=FALSE,message=FALSE>>=
+options(width=50)
 @
 
 \section{Introduction}
@@ -42,31 +43,45 @@ read_chunk("R-code/R_for_latex.R")
 
 \section{Analysis}
 
-The first step of the analysis involves fitting the full model. This produces estimates for $\mathbf{\beta}$, but the standard error of the individual ${\beta}_k$ can not be computed due to the degrees of freedom, $n - p$, being zero. Because of this the significant| covariates can not be found in the traditional way. An alternative approach must therefore be taken. Lenth provided a method for estimating which covariates are significant. This method is implemented in the code, see the function \texttt{get\_lenth}. Lenth's approach reveals that the four factor interaction isn't significant for any reasonable significance level. This, in addition with the unclear meaning of such an interaction leads us to drop the four factor interaction from the model in order to obtain a degree of freedom. 
+The first step of the analysis involves fitting the full model. This produces estimates for $\mathbf{\beta}$, but the standard error of the individual ${\beta}_k, k = 1,2,...,p$ can not be computed due to the degrees of freedom, $n - p$, being zero. Because of this the significant covariates can not be found in the traditional way. An alternative approach must therefore be taken. Lenth provided a method for estimating which covariates are significant. This method is implemented in the code, see the function \texttt{get\_lenth}. Lenth's approach reveals that the four factor interaction isn't significant for any reasonable significance level. This, in addition with the unclear meaning of such an interaction leads us to drop the four factor interaction from the model in order to obtain a degree of freedom. 
 
 <<full_model>>=
 @
 
-Fitting a new, reduced model without the four factor interaction reveals that none of three factor interactions are significant either. One can therefore proceed with a model with only one - and two - factor interactions. This has the benefit of enabling us to make plots of the residuals in order to evaluate the correctness of the assumptions made when constructing a linear model. 
+Fitting a new, reduced model without the four factor interaction reveals that none of three factor interactions are significant either. This can seen by looking at code included in the appendix. In addition, the F-statistic reveals that the regression isn't significant for this model. One can therefore proceed with a model with only one - and two - factor interactions. This has the benefit of enabling us to make plots of the residuals in order to evaluate the correctness of the assumptions made when constructing a linear model. 
 
-<<reduced_model_1>>=
-@
+Before one proceeds to constructing the final model it is sensible to consider how a transformation of the response could impact the fit of the model. A widely used transformation is the Box-Cox transformation. The value that maximizes the log-likelihood function calculated by \texttt{boxcox} is chosen as $\lambda$ in the transformation given by equation \eqref{boxcox}. $T_{new}$ denotes the new response. $T$ denotes the original response.
 
-Before one proceeds to constructing the final model it is sensible to consider how a transformation of the response could impact the fit of the model. A widely used transformation is the Box-Cox transformation. The value that maximizes the log-likelihood function calculated by \texttt{boxcox} is chosen as $\lambda$ is the transformation given by the following equation. $T_{new}$ denotes the new response. $T$ denotes the original response.
-
-\begin{equation}
+\begin{equation}\label{boxcox}
 T_{new} = \frac{T^{\lambda} - 1}{\lambda}
 \end{equation}
 
-This procedure is carried out in the code. Lambda is found by the use of \texttt{get{\_}lambda}.
-
-<<reduced_model_2>>=
-@
-
-A new model with the transformed data is then fitted. Calling \texttt{summary} on the model, as done in the code, returns a overview of the most important properties of the model. $R^2$ is very high, but this is in part caused by the large number of covariates. This is indicated by $R^2_{adj}$. 
-
 <<reduced_model_2_tf>>=
 @
+
+This procedure is carried out in the code. Lambda is found by the use of \texttt{get{\_}lambda}. A new model with the transformed response is then fitted. Calling \texttt{summary} on the model, as done in the code, returns a overview of some of the most important properties of the model. By looking at the F-statistic and it's associated p-value one observes that this regression is significant with significance level $\alpha = 0.05$, which wasn't the case for the model that included three factor interactions.
+
+By the lookig at the output from calling \texttt{summary} on the transformed model one observes that not all of the covariates are significant. The only covariates that are significant at a significance level of $\alpha \leq 0.05$ are A, D, the interaction between A and B, A and D and C and D. 
+
+This, in more plain language, means that the way two variables are reassigned probably has an effect on the running time of the function. Other factors that seem to make a difference is the way data is represented, aswell as the interaction between variable reassignment and list generation, variable reassignment and data representation, aswell as the interaction between the method used for returning variables and data representation. 
+
+<<analysis>>=
+@
+
+
+<<effects, fig.height=3, fig.width=4>>=
+@
+
+The main effects are shown in figure \ref{fig:effects}. This shows that data representation and variable resassignment affects the response the most. 
+
+<<residuals, fig.height=3>>=
+@
+
+<<quantile,fig.height=3>>=
+@
+
+
+The model assumptions for the linear regression is that the errors have homoscedastic variance and are normally distributed with mean zero. There must be linearity of covariates, uncorrelated errors and additivity of errors. The quantile plot suggests that the errors are normally distributed. The studentized residuals does, however, seem to be increasing as the response grows. 
 
 \section{Conclusion}
 

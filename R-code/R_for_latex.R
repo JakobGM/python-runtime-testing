@@ -10,8 +10,7 @@ library(MASS)
 newrun = FALSE
 
 if (newrun){
-  factor_names <- c("Swapping", "Iteration", "Returning", "Type")
-  plan <- FrF2(nruns=16,nfactors=4,factor.names=factor_names)
+  plan <- FrF2(nruns=16,nfactors=4)
   plan
   write.csv(plan, file="csv/plan.csv")
   save(plan,file="R-code/plan.RData")
@@ -28,8 +27,9 @@ get_lenth <- function(effects, alpha){
   s0 = 1.5*median_abseffects
   new_abseffects = abseffects[abseffects < 2.5*s0]
   pse = 1.5*median(new_abseffects)
-  significant_effects <- abseffects[abseffects > qt(1-alpha/2,(length(effects)-1)/3)*pse]
-  return(significant_effects)
+  sign_eff <- abseffects[
+    abseffects > qt(1-alpha/2,(length(effects)-1)/3)*pse]
+  return(sign_eff)
 }
 
 get_lambda <- function(model){
@@ -51,30 +51,31 @@ summary(lm3)
 
 ## ---- reduced_model_2
 
-lm2 <- lm(time~(.)^2, data=plan)
 effects2 <- 2*lm2$coeff
-lambda <- get_lambda(lm2)
-tf_plan <- plan
-tf_plan$time = (data$time^lambda - 1)/lambda
-
 
 ## ---- reduced_model_2_tf
 
+lm2 <- lm(time~(.)^2, data=plan)
+lambda <- get_lambda(lm2)
+tf_plan <- plan
+tf_plan$time = (data$time^lambda - 1)/lambda
 lm2_tf <- lm(time~(.)^2,data=tf_plan)
-summary(lm2_tf)
-qqnorm(rstudent(lm2_tf),pch=20)
-qqline(rstudent(lm2_tf))
-plot(lm2$fitted,rstudent(lm2_tf),pch=20)
 
 ## ---- analysis
 
-summary(lm2)
-anova(lm2)
+summary(lm2_tf)
 
-MEPlot(lm2)
-IAPlot(lm2)
-qqnorm(rstudent(lm2),pch=20)
-qqline(rstudent(lm2))
-plot(lm2$fitted,rstudent(lm2),pch=20)
-cubePlot(lm2,"A","B","C",round=1,size=0.33,main="")
+## ---- effects
+
+MEPlot(lm2_tf)
+IAPlot(lm2_tf)
+
+## ---- residuals
+
+par(mfrow=(c(1,2)))
+plot(lm2$fitted,rstudent(lm2_tf),pch=20)
+qqnorm(rstudent(lm2_tf),pch=20)
+qqline(rstudent(lm2_tf))
+
+
 
