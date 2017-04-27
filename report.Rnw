@@ -5,6 +5,7 @@
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{bm}
+\usepackage{listings}
 
 \renewcommand{\thesection}{\arabic{section}.}
 
@@ -37,9 +38,9 @@ options(width=50)
 
 \input{"latex/introduction.tex"}
 
-\section{Problem}
+\section{Experiment}
 
-\input{"latex/problem.tex"}
+\input{"latex/experiment.tex"}
 
 \section{Analysis}
 
