@@ -4,3 +4,6 @@
 
 # Ignore python C compilations
 *.pyc
+
+# Ignore vim swap files
+*.swp
