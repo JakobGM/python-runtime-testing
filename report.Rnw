@@ -50,7 +50,7 @@ A full factorial $2^k$ experiment with $k = 4$ factors is conducted, with the or
 
 The first step of the analysis involves fitting the full model. This produces estimates for $\mathbf{\beta}$, but the standard error of the individual ${\beta}_k, k = 1,2,...,p$ can not be computed due to the degrees of freedom, $n - p$, being zero. Because of this the significant covariates can not be found in the traditional way. An alternative approach must therefore be taken. Lenth provided a method for estimating which covariates are significant. This method is implemented in the code, see the function \texttt{get\_lenth}. Lenth's approach reveals that the four factor interaction isn't significant for any reasonable significance level. This can be seen in figure ref{fig:full_model}. This, in addition to the unclear meaning of such an interaction leads us to drop the four factor interaction from the model in order to obtain a degree of freedom. 
 
-<<full_model, fig.cap="Estimation of significant covariates">>=
+<<full_model, fig.cap="Estimation of significant covariates", fig.height=4>>=
 @
 
 Fitting a new, reduced model without the four factor interaction reveals that none of three factor interactions are significant either. This can seen by calling \texttt{summary(lm3)}. In addition, the F-statistic reveals that the regression isn't significant for this model. One can therefore proceed with a model with only one - and two - factor interactions. This has the benefit of enabling us to make plots of the residuals in order to evaluate the correctness of the assumptions made when constructing a linear model. 
