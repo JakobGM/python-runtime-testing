@@ -1,9 +1,11 @@
 rm(list=ls())
+graphics.off()
 
 ## ---- setup
 
 library(FrF2)
 library(MASS)
+library(lattice)
 
 ## ---- full_model
 
@@ -21,14 +23,18 @@ if (newrun){
 data <- read.csv(file="csv/results.csv")
 plan <- add.response(plan, data)
 
-get_lenth <- function(effects, alpha){
-  abseffects <- abs(effects)
+get_lenth <- function(effects, alpha, pareto=FALSE){
+  abseffects <- abs(effects)[-1]
   median_abseffects <- median(abseffects)
   s0 = 1.5*median_abseffects
   new_abseffects = abseffects[abseffects < 2.5*s0]
   pse = 1.5*median(new_abseffects)
   sign_eff <- abseffects[
     abseffects > qt(1-alpha/2,(length(effects)-1)/3)*pse]
+  if (pareto){
+    barplot(sort(abseffects), horiz=TRUE)
+    abline(v=qt(1-alpha/2,(length(effects)-1)/3)*pse)
+  }
   return(sign_eff)
 }
 
@@ -41,7 +47,7 @@ get_lambda <- function(model){
 
 lm4 <- lm(time~(.)^4,data=plan)
 effects4 <- 2*lm4$coeff
-sign_eff <- get_lenth(effects4, 0.2)
+sign_eff <- get_lenth(effects4, 0.2, pareto=TRUE)
 sign_eff
 
 ## ---- reduced_model_1
