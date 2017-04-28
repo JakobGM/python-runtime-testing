@@ -7,22 +7,6 @@ library(FrF2)
 library(MASS)
 library(lattice)
 
-## ---- full_model
-
-newrun = FALSE
-
-if (newrun){
-  plan <- FrF2(nruns=16,nfactors=4)
-  plan
-  write.csv(plan, file="csv/plan.csv")
-  save(plan,file="R-code/plan.RData")
-} else {
-  load("R-code/plan.RData")
-}
-
-data <- read.csv(file="csv/results.csv")
-plan <- add.response(plan, data)
-
 get_lenth <- function(effects, alpha, pareto=FALSE){
   abseffects <- abs(effects)[-1]
   median_abseffects <- median(abseffects)
@@ -44,6 +28,22 @@ get_lambda <- function(model){
   lambda = bc_res$x[lambda_i]
   return(lambda)
 }
+
+## ---- full_model
+
+newrun = FALSE
+
+if (newrun){
+  plan <- FrF2(nruns=16,nfactors=4)
+  plan
+  write.csv(plan, file="csv/plan.csv")
+  save(plan,file="R-code/plan.RData")
+} else {
+  load("R-code/plan.RData")
+}
+
+data <- read.csv(file="csv/results.csv")
+plan <- add.response(plan, data)
 
 lm4 <- lm(time~(.)^4,data=plan)
 effects4 <- 2*lm4$coeff
