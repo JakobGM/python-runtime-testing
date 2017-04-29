@@ -68,7 +68,7 @@ The transformation is carried out in the code. Lambda is found by the use of \te
 
 By the lookig at the output from calling \texttt{summary} on the transformed model one observes that not all of the covariates are significant. The only covariates that are significant at a significance level of $\alpha \leq 0.05$ are A, D, the interaction between A and B, A and D and C and D. 
 
-This, in more plain language, means that the way two variables are interchanged probably has an effect on the running time of the function. Other factors that seem to make a difference is the way data is represented, aswell as the interaction between variable reassignment and list generation, variable reassignment and data representation, aswell as the interaction between the method used for returning variables and data representation. A plot showing the interaction effects visually is included in figure \ref{fig:effects}. 
+This, in more plain language, means that the way two variables are interchanged probably has an effect on the running time of the function. Other factors that seem to make a difference is the way data is represented, aswell as the interaction between variable reassignment and list generation, variable reassignment and data representation, aswell as the interaction between the method used for returning variables and data representation.
 
 <<analysis>>=
 @
