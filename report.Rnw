@@ -73,7 +73,7 @@ This, in more plain language, means that the way two variables are interchanged 
 @
 
 
-<<effects, fig.cap=c("Estimation of main effects", "Estimated change in response when changing the level of an individual factor"), fig.height=3, fig.width=4>>=
+<<effects, fig.cap=c("Estimation of main effects", "Estimated change in response when changing the level of an individual factor"), fig.height=3>>=
 @
 
 The main effects are shown in figure \ref{fig:effects1}. This shows that data representation and variable resassignment affects the response by a considerable amount.  The plot shows that other factors are also estimated to have an effect, but these effects are not significant and can not be trusted to reflect the truth. Extracting reliable information from the interaction plot, shown in \ref{fig:effects2} isn't quite as straigth-forward. The panel corresponding to the interaction between A and D probably reflects the truth, but the other plots are impacted by inclusion of covariates that aren't significant and shouldn't be considered to be accurate.

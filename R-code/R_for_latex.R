@@ -16,7 +16,7 @@ get_lenth <- function(effects, alpha, pareto=FALSE){
   sign_eff <- abseffects[
     abseffects > qt(1-alpha/2,(length(effects)-1)/3)*pse]
   if (pareto){
-    barplot(sort(abseffects), horiz=TRUE)
+    barplot(sort(abseffects), horiz=TRUE,las=2)
     abline(v=qt(1-alpha/2,(length(effects)-1)/3)*pse)
   }
   return(sign_eff)
