@@ -54,7 +54,7 @@ The first step of the analysis involves fitting the full model. This produces es
 
 Fitting a new, reduced model without the four factor interaction reveals that none of the three factor interactions are significant either. This can seen by calling \texttt{summary(lm3)}. The code is included in the appendix. In addition, the F-statistic reveals that the regression isn't significant for this model. One can therefore proceed with a model with only one - and two - factor interactions. This has the benefit of enabling us to make plots of the studentized residuals in order to evaluate the correctness of the assumptions made when constructing a linear model. This was not possible for the earlier models. 
 
-Before one proceeds to constructing the final model it is sensible to consider how a transformation of the response could impact the fit of the model. A widely used transformation is the Box-Cox transformation. The value that maximizes the log-likelihood function calculated by \texttt{boxcox} is chosen as $\lambda$ in the transformation given by equation \eqref{boxcox}. $T_{new}$ denotes the new response. $T$ denotes the original response.
+Before one proceeds to constructing the final model it is sensible to consider how a transformation of the response could impact the model. A widely used transformation is the Box-Cox transformation. This transformation is done in order to increase the likelihood that the residuals are normally distributed. The value that maximizes the log-likelihood function calculated by \texttt{boxcox} is chosen as $\lambda$ in the transformation given by equation \eqref{boxcox}. $T_{new}$ denotes the new response. $T$ denotes the original response.
 
 \begin{equation}\label{boxcox}
 T_{new} = \frac{T^{\lambda} - 1}{\lambda}
